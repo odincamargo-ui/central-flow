@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central Flow BR · Central de Indicadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #EE4D2D;
+    --primary-dark: #D44425;
+    --primary-light: #FF6B3D;
+    --primary-bg: #FFF0EB;
+    --sidebar-bg: #1B1D2A;
+    --sidebar-hover: #272939;
+    --sidebar-active: var(--primary);
+    --body-bg: #F5F5F8;
+    --card-bg: #FFFFFF;
+    --text-dark: #1A1A2E;
+    --text-mid: #555566;
+    --text-light: #8E8EA0;
+    --text-white: #FFFFFF;
+    --border: #E8E8EE;
+    --green: #22C55E;
+    --green-bg: #ECFDF5;
+    --blue: #3B82F6;
+    --blue-bg: #EFF6FF;
+    --purple: #8B5CF6;
+    --purple-bg: #F5F3FF;
+    --amber: #F59E0B;
+    --amber-bg: #FFFBEB;
+    --rose: #EF4444;
+    --rose-bg: #FEF2F2;
+    --teal: #14B8A6;
+    --teal-bg: #F0FDFA;
+    --radius: 10px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--body-bg);
+    color: var(--text-dark);
+  }
+
+  .app {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+  }
+
+  /* ═══ SIDEBAR ═══ */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow-y: auto;
+    z-index: 10;
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .sidebar-brand-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    color: white;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-brand-text {
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+  }
+
+  .sidebar-brand-text small {
+    display: block;
+    font-weight: 400;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 1px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-section {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    padding: 16px 10px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .nav-item:hover {
+    background: var(--sidebar-hover);
+    color: rgba(255,255,255,0.85);
+  }
+
+  .nav-item.active {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+  }
+
+  .nav-item svg {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+  }
+
+  .nav-item .nav-count {
+    margin-left: auto;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .nav-item.active .nav-count {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  .sidebar-user {
+    padding: 14px 18px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sidebar-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .sidebar-user-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sidebar-user-name {
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sidebar-user-role {
+    color: rgba(255,255,255,0.35);
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* Top bar */
+  .topbar {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .topbar-left h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .topbar-left p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-mid);
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+
+  .topbar-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .topbar-btn svg {
+    width: 16px; height: 16px;
+  }
+
+  /* Scrollable area */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px 40px;
+  }
+
+  /* ═══ STATS ═══ */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-card .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-light);
+  }
+
+  .stat-card .stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .stat-card .stat-sub {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-light);
+  }
+
+  .stat-orange .stat-value { color: var(--primary); }
+  .stat-green .stat-value { color: var(--green); }
+  .stat-blue .stat-value { color: var(--blue); }
+  .stat-purple .stat-value { color: var(--purple); }
+  .stat-amber .stat-value { color: var(--amber); }
+
+  /* ═══ FILTERS BAR ═══ */
+  .filters-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 14px;
+    flex: 1;
+    min-width: 220px;
+    max-width: 360px;
+    transition: border-color 0.15s ease;
+  }
+
+  .search-box:focus-within {
+    border-color: var(--primary);
+  }
+
+  .search-box svg {
+    width: 16px; height: 16px;
+    color: var(--text-light);
+    flex-shrink: 0;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 4px;
+    color: var(--text-dark);
+    background: transparent;
+    font-family: inherit;
+  }
+
+  .search-box input::placeholder {
+    color: var(--text-light);
+    font-weight: 400;
+  }
+
+  .clear-btn {
+    border: none;
+    background: var(--body-bg);
+    color: var(--text-mid);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: none;
+    font-family: inherit;
+  }
+
+  .clear-btn:hover {
+    background: var(--border);
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  .filter-tab {
+    border: none;
+    background: transparent;
+    color: var(--text-mid);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .filter-tab:hover {
+    background: var(--body-bg);
+  }
+
+  .filter-tab.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* ═══ GRID ═══ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  /* ═══ CARDS ═══ */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .card-icon svg {
+    width: 22px; height: 22px;
+  }
+
+  /* icon color variants */
+  .ic-orange { background: var(--primary-bg); color: var(--primary); }
+  .ic-blue   { background: var(--blue-bg); color: var(--blue); }
+  .ic-green  { background: var(--green-bg); color: var(--green); }
+  .ic-purple { background: var(--purple-bg); color: var(--purple); }
+  .ic-rose   { background: var(--rose-bg); color: var(--rose); }
+  .ic-amber  { background: var(--amber-bg); color: var(--amber); }
+  .ic-teal   { background: var(--teal-bg); color: var(--teal); }
+
+  /* green dot for active links */
+  .card[href]:not([href="#"]) .card-icon::after {
+    content: "";
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2px solid var(--card-bg);
+  }
+
+  .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-body h2 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 3px;
+    line-height: 1.3;
+  }
+
+  .card-body .tag {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-light);
+  }
+
+  .card-arrow {
+    position: absolute;
+    top: 50%; right: 16px;
+    transform: translateY(-50%);
+    width: 22px; height: 22px;
+    opacity: 0;
+    color: var(--text-light);
+    transition: opacity 0.2s ease;
+  }
+
+  .card:hover .card-arrow {
+    opacity: 1;
+    color: var(--primary);
+  }
+
+  /* card status badge */
+  .card-status {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-active {
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  .status-pending {
+    background: var(--amber-bg);
+    color: var(--amber);
+  }
+
+  /* ═══ EMPTY STATE ═══ */
+  .empty-state {
+    display: none;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 48px 24px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--card-bg);
+    grid-column: 1 / -1;
+  }
+
+  .empty-state span {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  /* ═══ ANIMATIONS ═══ */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    animation: fade-up 0.3s ease both;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.02s; }
+  .card:nth-child(2) { animation-delay: 0.04s; }
+  .card:nth-child(3) { animation-delay: 0.06s; }
+  .card:nth-child(4) { animation-delay: 0.08s; }
+  .card:nth-child(5) { animation-delay: 0.10s; }
+  .card:nth-child(6) { animation-delay: 0.12s; }
+  .card:nth-child(7) { animation-delay: 0.14s; }
+  .card:nth-child(8) { animation-delay: 0.16s; }
+  .card:nth-child(9) { animation-delay: 0.18s; }
+  .card:nth-child(10) { animation-delay: 0.20s; }
+  .card:nth-child(11) { animation-delay: 0.22s; }
+  .card:nth-child(12) { animation-delay: 0.24s; }
+  .card:nth-child(13) { animation-delay: 0.26s; }
+  .card:nth-child(14) { animation-delay: 0.28s; }
+  .card:nth-child(15) { animation-delay: 0.30s; }
+  .card:nth-child(16) { animation-delay: 0.32s; }
+  .card:nth-child(17) { animation-delay: 0.34s; }
+  .card:nth-child(18) { animation-delay: 0.36s; }
+  .card:nth-child(19) { animation-delay: 0.38s; }
+  .card:nth-child(20) { animation-delay: 0.40s; }
+  .card:nth-child(21) { animation-delay: 0.42s; }
+
+  /* ═══ MOBILE ═══ */
+  .mobile-header {
+    display: none;
+    background: var(--sidebar-bg);
+    padding: 12px 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .mobile-header .brand div {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: white;
+  }
+
+  .menu-toggle {
+    border: none;
+    background: none;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .menu-toggle svg { width: 24px; height: 24px; }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0; bottom: 0;
+      transition: left 0.25s ease;
+      z-index: 100;
+    }
+    .sidebar.open { left: 0; }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 99;
+    }
+    .sidebar.open ~ .sidebar-overlay { display: block; }
+    .mobile-header { display: flex; }
+    .content { padding: 16px; }
+    .topbar { padding: 14px 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .search-box { max-width: none; min-width: 0; }
+    .filter-tabs { overflow-x: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">CF</div>
+      <div class="sidebar-brand-text">
+        Central Flow
+        <small>Flow BR</small>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Menu</div>
+
+      <button class="nav-item active" data-cat="all">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Todos
+        <span class="nav-count">21</span>
+      </button>
+
+      <button class="nav-item" data-cat="operacao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        Operação
+        <span class="nav-count">4</span>
+      </button>
+
+      <button class="nav-item" data-cat="comercial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        Comercial
+        <span class="nav-count">4</span>
+      </button>
+
+      <button class="nav-item" data-cat="gestao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="18" cy="9" r="2.4"/><path d="M15.8 14.2c2.6.4 4.7 2.4 4.7 5.3"/></svg>
+        Gestão
+        <span class="nav-count">4</span>
+      </button>
+
+      <button class="nav-item" data-cat="suporte">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"/><rect x="2" y="13" width="4" height="6" rx="1"/><rect x="18" y="13" width="4" height="6" rx="1"/></svg>
+        Suporte
+        <span class="nav-count">4</span>
+      </button>
+
+      <button class="nav-item" data-cat="logistica">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17h13V6H2z"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
+        Logística
+        <span class="nav-count">2</span>
+      </button>
+
+      <button class="nav-item" data-cat="tech">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>
+        Tech & Dados
+        <span class="nav-count">3</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">OC</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Odin Camargo</div>
+        <div class="sidebar-user-role">Backoffice</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="sidebar-overlay" id="overlay"></div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+      <div class="brand">
+        <div>CF</div>
+        Central Flow
+      </div>
+      <button class="menu-toggle" id="menuBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+      </button>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Central de Indicadores</h1>
+        <p>Acesso rápido aos dashboards e relatórios operacionais</p>
+      </div>
+    </div>
+
+    <!-- SCROLLABLE CONTENT -->
+    <div class="content">
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card stat-orange">
+          <span class="stat-label">Total de Dashboards</span>
+          <span class="stat-value" id="totalStat">21</span>
+        </div>
+        <div class="stat-card stat-green">
+          <span class="stat-label">Com Link Ativo</span>
+          <span class="stat-value">1</span>
+          <span class="stat-sub">Inbound</span>
+        </div>
+        <div class="stat-card stat-blue">
+          <span class="stat-label">Categorias</span>
+          <span class="stat-value">7</span>
+        </div>
+        <div class="stat-card stat-purple">
+          <span class="stat-label">Pendentes</span>
+          <span class="stat-value">20</span>
+          <span class="stat-sub">Aguardando link</span>
+        </div>
+        <div class="stat-card stat-amber">
+          <span class="stat-label">% Ativos</span>
+          <span class="stat-value">4.8%</span>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="search" placeholder="Buscar dashboard..." autocomplete="off">
+          <button class="clear-btn" id="clearBtn">Limpar</button>
+        </div>
+
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" data-cat="all">Todos</button>
+          <button class="filter-tab" data-cat="operacao">Operação</button>
+          <button class="filter-tab" data-cat="comercial">Comercial</button>
+          <button class="filter-tab" data-cat="gestao">Gestão</button>
+          <button class="filter-tab" data-cat="suporte">Suporte</button>
+          <button class="filter-tab" data-cat="logistica">Logística</button>
+          <button class="filter-tab" data-cat="tech">Tech</button>
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div class="grid" id="grid">
+
+        <a class="card" data-name="inbound produtividade recebimento entrada" data-cat="operacao" href="https://datastudio.google.com/reporting/381b9841-a980-41cb-9a7d-a7216bad7518/page/p_lqbrat9a2d?pli=1" target="_blank" rel="noopener">
+          <div class="card-icon ic-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+          <div class="card-body"><h2>Inbound</h2><span class="tag">Produtividade</span></div>
+          <span class="card-status status-active">Ativo</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="outbound logistica expedicao" data-cat="logistica" href="#">
+          <div class="card-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17h13V6H2z"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg></div>
+          <div class="card-body"><h2>Outbound</h2><span class="tag">Logística</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="estoque inventario armazem" data-cat="operacao" href="#">
+          <div class="card-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 8v9l9 5 9-5V8"/><path d="M12 13v9"/></svg></div>
+          <div class="card-body"><h2>Estoque</h2><span class="tag">Inventário</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="vendas comercial pedidos" data-cat="comercial" href="#">
+          <div class="card-icon ic-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg></div>
+          <div class="card-body"><h2>Vendas</h2><span class="tag">Comercial</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="financeiro receita faturamento" data-cat="comercial" href="#">
+          <div class="card-icon ic-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.3c0 1.3 1.2 1.9 3 2.2 1.8.3 3 .9 3 2.2 0 1.3-1.3 2.3-3 2.3s-3-1.1-3-2.5"/></svg></div>
+          <div class="card-body"><h2>Financeiro</h2><span class="tag">Receita</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="marketing campanhas ads" data-cat="comercial" href="#">
+          <div class="card-icon ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a2 2 0 0 0 2 2h1l3 4V5L6 9H5a2 2 0 0 0-2 2z"/><path d="M11 8l7-3v14l-7-3"/></svg></div>
+          <div class="card-body"><h2>Marketing</h2><span class="tag">Campanhas</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="atendimento suporte chamados" data-cat="suporte" href="#">
+          <div class="card-icon ic-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"/><rect x="2" y="13" width="4" height="6" rx="1"/><rect x="18" y="13" width="4" height="6" rx="1"/></svg></div>
+          <div class="card-body"><h2>Atendimento</h2><span class="tag">Suporte</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="pessoas rh equipe" data-cat="gestao" href="#">
+          <div class="card-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="18" cy="9" r="2.4"/><path d="M15.8 14.2c2.6.4 4.7 2.4 4.7 5.3"/></svg></div>
+          <div class="card-body"><h2>Pessoas</h2><span class="tag">RH</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="qualidade auditoria conformidade" data-cat="operacao" href="#">
+          <div class="card-icon ic-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/></svg></div>
+          <div class="card-body"><h2>Qualidade</h2><span class="tag">Auditoria</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="devolucoes pos-venda trocas" data-cat="suporte" href="#">
+          <div class="card-icon ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></div>
+          <div class="card-body"><h2>Devoluções</h2><span class="tag">Pós-venda</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="fretes transporte entregas" data-cat="logistica" href="#">
+          <div class="card-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div class="card-body"><h2>Fretes</h2><span class="tag">Transporte</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="metas performance objetivos" data-cat="gestao" href="#">
+          <div class="card-icon ic-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></div>
+          <div class="card-body"><h2>Metas</h2><span class="tag">Performance</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="agenda planejamento cronograma" data-cat="gestao" href="#">
+          <div class="card-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg></div>
+          <div class="card-body"><h2>Agenda</h2><span class="tag">Planejamento</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="relatorios analytics dados" data-cat="tech" href="#">
+          <div class="card-icon ic-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg></div>
+          <div class="card-body"><h2>Relatórios</h2><span class="tag">Analytics</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="clientes crm contatos" data-cat="comercial" href="#">
+          <div class="card-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+          <div class="card-body"><h2>Clientes</h2><span class="tag">CRM</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="fornecedores compras suprimentos" data-cat="operacao" href="#">
+          <div class="card-icon ic-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></div>
+          <div class="card-body"><h2>Fornecedores</h2><span class="tag">Compras</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="alertas monitoramento notificacoes" data-cat="tech" href="#">
+          <div class="card-icon ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 14 18 8z"/><path d="M10.5 19a1.5 1.5 0 0 0 3 0"/></svg></div>
+          <div class="card-body"><h2>Alertas</h2><span class="tag">Monitoramento</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="documentos arquivos gestao" data-cat="gestao" href="#">
+          <div class="card-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></div>
+          <div class="card-body"><h2>Documentos</h2><span class="tag">Arquivos</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="comunicacao mensagens interno" data-cat="suporte" href="#">
+          <div class="card-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+          <div class="card-body"><h2>Comunicação</h2><span class="tag">Mensagens</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="seguranca acessos permissoes" data-cat="tech" href="#">
+          <div class="card-icon ic-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="card-body"><h2>Segurança</h2><span class="tag">Acessos</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+        <a class="card" data-name="avaliacoes feedback satisfacao" data-cat="suporte" href="#">
+          <div class="card-icon ic-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17.3 6.4 20.1l1.4-6.3L3 9.5l6.4-.6L12 3z"/></svg></div>
+          <div class="card-body"><h2>Avaliações</h2><span class="tag">Feedback</span></div>
+          <span class="card-status status-pending">Pendente</span>
+          <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+
+      </div>
+
+      <div class="empty-state" id="emptyState">
+        <span>🔍</span>
+        Nenhum dashboard encontrado para essa pesquisa.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const search = document.getElementById('search');
+  const clearBtn = document.getElementById('clearBtn');
+  const cards = Array.from(document.querySelectorAll('#grid .card'));
+  const emptyState = document.getElementById('emptyState');
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const navItems = document.querySelectorAll('.nav-item[data-cat]');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuBtn = document.getElementById('menuBtn');
+  let activeCat = 'all';
+
+  function setCategory(cat) {
+    activeCat = cat;
+    // sync filter tabs
+    filterTabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+    // sync sidebar nav
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.cat === cat));
+    filterCards();
+  }
+
+  function filterCards() {
+    const q = search.value.trim().toLowerCase();
+    clearBtn.style.display = q ? 'block' : 'none';
+
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const haystack = (card.dataset.name + ' ' + card.querySelector('h2').textContent + ' ' + card.querySelector('.tag').textContent).toLowerCase();
+      const matchText = !q || haystack.includes(q);
+      const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+      const show = matchText && matchCat;
+      card.style.display = show ? '' : 'none';
+      if (show) visibleCount++;
+    });
+
+    emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
+  }
+
+  search.addEventListener('input', filterCards);
+  clearBtn.addEventListener('click', () => {
+    search.value = '';
+    filterCards();
+    search.focus();
+  });
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => setCategory(tab.dataset.cat));
+  });
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      setCategory(item.dataset.cat);
+      // close mobile sidebar
+      sidebar.classList.remove('open');
+    });
+  });
+
+  // Mobile menu
+  menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+  overlay.addEventListener('click', () => sidebar.classList.remove('open'));
+</script>
+
+</body>
+</html>
